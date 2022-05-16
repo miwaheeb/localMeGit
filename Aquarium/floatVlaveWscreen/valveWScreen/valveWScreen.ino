@@ -1,39 +1,80 @@
 /*
-Project: I2C LCD Backpack Arduino Experiment
-By: T.K.Hareendran/TechNode Protolabz
-For: https://www.electroschematics.com
-Includes: Library from https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads*
-Hardware/Controller: See article
-Software/Sketch: Precisely adapted – Ref: Internet
-Date: December 2015
+  ***********************************************************************************
+  *    This code was created by : Mina Waheeb
+  *    Date created             : 5/12/2022
+  *    Date last modified       : 2/16/2022
+  *    
+  *    modifications : 2/16/2022          
+  *    -> added lcd_func.h file
+  *    -> added LCD.init function to set-up LCD
+  *    -> added serial.begin for serial print
+  *    
+  *    -> added floatValve_func.h file
+  *    -> implemented floatValve init
+  *    -> implemented floatValve func
+  *    
+  *    -> added timeInterrupt_func.h file
+  *    -> implemented updateSensors_func
+  *    
+  *    
+  *    
+  ***********************************************************************************
+  
 */
-#include "Wire.h" // For I2C
-#include "LCD.h" // For LCD
-#include "LiquidCrystal_I2C.h" // Added library*
 
-#define port              D5
-//Set the pins on the I2C chip used for LCD connections
-//ADDR,EN,R/W,RS,D4,D5,D6,D7
-LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7); // 0x27 is the default I2C bus address of the backpack-see article change addreess as needed, use I2C scanner
+/*libs*/
+#include "Wire.h"               //for I2C
+#include "lcd_func.h"           //lcd_func.h file
+#include "floatValve_func.h"    //floatValve_func.h file
+#include "timeInterrupt_func.h" //timeInterrupt_func.h file
+
+/*defs*/
+extern int token;
+int counter = 0; //testing lcd with ISR
+
+/************************************************************************************
+ *                      functions ".h" files declerations
+*************************************************************************************/
+void LCD_init();           //LCD initail startUp parameters
+void floatValve_init();    //float valve sensor initail set-up
+void getFloatValve();    //float valve main function
+void updateSensors_func(); //time interrupt setup
+/************************************************************************************/
+
 void setup()
 {
-   // Set off LCD module
-   lcd.begin (16,2); // 16 x 2 LCD module
-   lcd.setBacklightPin(3,POSITIVE); // BL, BL_POL
-   lcd.setBacklight(HIGH);
-
-   pinMode(port,INPUT_PULLUP);
+  //**************open serial over USB at 9600 baud*************
+  Serial.begin(9600);
+  //************************************************************
+  
+  LCD_init();           //initialize LCD 
+  floatValve_init();    //initialize float valves 
 }
 void loop()
 {
+  
+   updateSensors_func(); //initialize and call time interrupt SR
+
+   if(token == 1)
+   {
+    getFloatValve();
+    lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
+    lcd.print(counter++,1);    // the 1 indicates only one decimal to be printed
+    
+   }
+   else if(token == 0)
+   {
+    
+   }
+   
    lcd.home (); // Set cursor to 0,0
    lcd.print("Veros Love Meter:"); // Custom text
-   if(digitalRead(port)== HIGH)
+   if(digitalRead(float_1_low)== HIGH)
    {
     
     lcd.setCursor (0,1); // Go to home of 2nd line
     lcd.print("HIGHERRRRRRRRRRRRRRRRR");
-    while(digitalRead(port)== HIGH) {}
+    while(digitalRead(float_1_lowrt)== HIGH) {}
     delay(25);
    }
    else
