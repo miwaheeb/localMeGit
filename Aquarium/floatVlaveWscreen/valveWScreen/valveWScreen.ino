@@ -29,8 +29,10 @@
 #include "timeInterrupt_func.h" //timeInterrupt_func.h file
 
 /*defs*/
-extern int token;
-int counter = 0; //testing lcd with ISR
+extern int token;     //from "timeInterrupt_func.h"
+int counter = 0;      //testing lcd with ISR
+
+extern int float_low; //from "floatValve_func.h"
 
 /************************************************************************************
  *                      functions ".h" files declerations
@@ -57,39 +59,46 @@ void loop()
 
    if(token == 1)
    {
-    getFloatValve();
-    lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
-    lcd.print(counter++,1);    // the 1 indicates only one decimal to be printed
+    getFloatValve(); //update floatValve sensors
     
+    if(float_low == 1)
+    {
+      lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
+      lcd.print("WH");    // the 1 indicates only one decimal to be printed
+      
+    }
+    else if(float_low == 0)
+    {
+      lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
+      lcd.print("WL");    // the 1 indicates only one decimal to be printed
+    }
    }
    else if(token == 0)
    {
     
    }
    
-   lcd.home (); // Set cursor to 0,0
-   lcd.print("Veros Love Meter:"); // Custom text
-   if(digitalRead(float_1_low)== HIGH)
-   {
+   //if(digitalRead(float_1_low)== HIGH)
+   //{
     
-    lcd.setCursor (0,1); // Go to home of 2nd line
-    lcd.print("HIGHERRRRRRRRRRRRRRRRR");
-    while(digitalRead(float_1_lowrt)== HIGH) {}
-    delay(25);
-   }
-   else
-   {
+    //lcd.setCursor (0,1); // Go to home of 2nd line
+    //lcd.print("HIGHERRRRRRRRRRRRRRRRR");
+    //while(digitalRead(float_1_low)== HIGH) {}
+    //delay(25);
+   //}
+   //else
+   //{
     
-    lcd.setCursor (0,1); // Go to home of 2nd line
-    lcd.print("High                            ");
-    while(digitalRead(port)== LOW) {}
-    delay(25); 
-   }
+   // lcd.setCursor (0,1); // Go to home of 2nd line
+   // lcd.print("High                            ");
+   // while(digitalRead(port)== LOW) {}
+    //delay(25); 
+  // }
    //lcd.setCursor (0,1); // Go to home of 2nd line
    //lcd.print("I Love You Most");
    //delay(1000); // Blinks of backlight
    //lcd.setBacklight(LOW); // Backlight off
-   delay(1);
-   lcd.setBacklight(HIGH); // Backlight on
-   delay(1);
+   //delay(1);
+   //lcd.setBacklight(HIGH); // Backlight on
+   //delay(1);
 }
