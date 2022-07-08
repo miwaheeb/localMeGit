@@ -2,7 +2,7 @@
   ***********************************************************************************
   *    This code was created by : Mina Waheeb
   *    Date created             : 5/12/2022
-  *    Date last modified       : 2/16/2022
+  *    Date last modified       : 7/07/2022
   *    
   *    modifications : 2/16/2022          
   *    -> added lcd_func.h file
@@ -15,6 +15,11 @@
   *    
   *    -> added timeInterrupt_func.h file
   *    -> implemented updateSensors_func
+  *    
+  *    modifications : 7/07/2022 
+  *    -> added float valve for mid, and ful levels
+  *    -> modified main and lcd.h for better structure
+  *    
   *    
   *    
   *    
@@ -29,17 +34,16 @@
 #include "timeInterrupt_func.h" //timeInterrupt_func.h file
 
 /*defs*/
-extern int token;     //from "timeInterrupt_func.h"
 int counter = 0;      //testing lcd with ISR
-
-extern int float_low; //from "floatValve_func.h"
 
 /************************************************************************************
  *                      functions ".h" files declerations
 *************************************************************************************/
 void LCD_init();           //LCD initail startUp parameters
+void LCD_valve_update();   //LCD water valves updater function
+
 void floatValve_init();    //float valve sensor initail set-up
-void getFloatValve();    //float valve main function
+
 void updateSensors_func(); //time interrupt setup
 /************************************************************************************/
 
@@ -54,27 +58,11 @@ void setup()
 }
 void loop()
 {
-  
-   updateSensors_func(); //initialize and call time interrupt SR
+   //initialize and call time interrupt SR
+   updateSensors_func(); 
+   
+   //LCD water valves updater function
+   LCD_valve_update();
 
-   if(token == 1)
-   {
-    getFloatValve(); //update floatValve sensors
-    
-    if(float_low == 1)
-    {
-      lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
-      lcd.print("WH");    // the 1 indicates only one decimal to be printed
-      
-    }
-    else if(float_low == 0)
-    {
-      lcd.setCursor (10,0);  // Set cursor to 10,0 [need only update the data]
-      lcd.print("WL");    // the 1 indicates only one decimal to be printed
-    }
-   }
-   else if(token == 0)
-   {
-    
-   }
+   
 }
