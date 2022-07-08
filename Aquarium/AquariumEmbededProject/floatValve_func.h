@@ -12,6 +12,10 @@
 int float_low = -1;
 int float_mid = -1;
 int float_ful = -1;
+/* valveCase = 0(empty) = 1(low) = 2(half-way full) = 3(full) = 4(error)*/
+int valveCase = -1;
+
+void DetermineWaterLev();
 
 /* float valve initialization function, runs only once from void setup() */
 void floatValve_init()
@@ -20,7 +24,7 @@ void floatValve_init()
   pinMode(float_2_mid,INPUT_PULLUP);
   pinMode(float_3_ful,INPUT_PULLUP);
 }
-
+/* Read valve sensor values*/
 void getFloatValve()
 {
   //---------float valve low-----------//
@@ -28,32 +32,58 @@ void getFloatValve()
   {
     float_low = 1;
   }
-  else if(digitalRead(float_1_low) == LOW)
+  if(digitalRead(float_1_low) == LOW)
   {
     float_low = 0;
   }
   //-----------------------------------//
 
   //---------float valve mid-----------//
-  else if(digitalRead(float_2_mid) == HIGH)
+  if(digitalRead(float_2_mid) == HIGH)
   {
     float_mid = 1;
   }
-  else if(digitalRead(float_2_mid) == LOW)
+  if(digitalRead(float_2_mid) == LOW)
   {
     float_mid = 0;
   }
   //-----------------------------------//
 
   //---------float valve ful-----------//
-  else if(digitalRead(float_3_ful) == HIGH)
+  if(digitalRead(float_3_ful) == HIGH)
   {
     float_ful = 1;
   }
-  else if(digitalRead(float_3_ful) == LOW)
+  if(digitalRead(float_3_ful) == LOW)
   {
     float_ful = 0;
   }
   //-----------------------------------//
+  DetermineWaterLev();
+}
+
+/* feed lcd*/
+void DetermineWaterLev()
+{
+  if(float_low == 0 && float_mid == 0 && float_ful == 0)
+  {
+    valveCase = 0; //(empty)
+  }
+  else if(float_low == 1 && float_mid == 0 && float_ful == 0)
+  {
+    valveCase = 1; //(low)
+  }
+  else if(float_low == 1 && float_mid == 1 && float_ful == 0)
+  {
+    valveCase = 2; //(half-way full)
+  }
+  else if(float_low == 1 && float_mid == 1 && float_ful == 1)
+  {
+    valveCase = 3; //(full)
+  }
+  else
+  {
+    valveCase = 4; //(error)
+  }
 }
 /************************************************************************************/

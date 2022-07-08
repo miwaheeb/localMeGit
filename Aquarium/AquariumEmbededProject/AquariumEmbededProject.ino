@@ -19,6 +19,9 @@
   *    modifications : 7/07/2022 
   *    -> added float valve for mid, and ful levels
   *    -> modified main and lcd.h for better structure
+  *    -> implemented LCD_valve_updater func
+  *    -> implemented DetermineWaterLev func
+  *    -> modified getFloatValve func (need make smarter in future)
   *    
   *    
   *    
@@ -63,6 +66,5 @@ void loop()
    
    //LCD water valves updater function
    LCD_valve_update();
-
-   
+   Serial.print(float_mid);
 }

@@ -17,7 +17,9 @@ extern int float_low; //from "floatValve_func.h"
 extern int float_mid; //from "floatValve_func.h"
 extern int float_ful; //from "floatValve_func.h"
 
-void getFloatValve();      //float valve main function
+extern int valveCase; //from "floatValve_func.h"
+
+void getFloatValve(); //float valve main function
 
 /* LCD initialization function, runs only once from void setup() */
 void LCD_init()
@@ -29,13 +31,9 @@ void LCD_init()
 
   lcd.home (); // Set cursor to 0,0
   lcd.print(""); // Custom text
-  //lcd.print(12.265,1); // the 1 indicates only one decimal to be printed
-  //lcd.print(char(223)); // adds the percent
    
   lcd.setCursor (0,1); // Go to home of 2nd line
-  lcd.print("TOW: W");
-  //lcd.print(65.265,1); // the 1 indicates only one decimal to be printed
-  //lcd.print("%");
+  lcd.print("Water: ");
   
   lcd.setBacklight(HIGH); // Backlight on
 }
@@ -46,22 +44,36 @@ void LCD_valve_update()
   if(token == 1)
    {
     getFloatValve(); //update floatValve sensors
-    
-    if(float_low == 1)
+
+    if(valveCase == 0)
     {
-      lcd.setCursor (5,1);  // Set cursor to 10,0 [need only update the data]
-      lcd.print("WH");    // the 1 indicates only one decimal to be printed
-      
+      lcd.setCursor (7,1);  // Set cursor to 10,0 [need only update the data]
+      lcd.print("Empty");      // the 1 indicates only one decimal to be printed
     }
-    else if(float_low == 0)
+    else if(valveCase == 1)
     {
-      lcd.setCursor (5,1);  // Set cursor to 10,0 [need only update the data]
-      lcd.print("WL");    // the 1 indicates only one decimal to be printed
+      lcd.setCursor (7,1);
+      lcd.print("Low");
     }
-   }
+    else if(valveCase == 2)
+    {
+      lcd.setCursor (7,1);
+      lcd.print("Half-way");
+    }
+    else if(valveCase == 3)
+    {
+      lcd.setCursor (7,1);
+      lcd.print("Full");
+    }
+    else if(valveCase == 4)
+    {
+      lcd.setCursor (7,1);
+      lcd.print("Error");      
+    }
    else if(token == 0)
    {
     
    }
+  }
 }
 /************************************************************************************/
