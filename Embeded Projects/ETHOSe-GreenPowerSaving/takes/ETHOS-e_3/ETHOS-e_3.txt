@@ -1,0 +1,14 @@
+ETHOS-e_1
+-gutted ethos
+
+ETHOS-e_2
+-formated ui
+-implemented sleep
+-need to tax proc
+-need to slplit tasks into functions to call from setup
+-need to comment code
+
+ETHOS-e_3
+-added wifi connect to tax cpu
+-need to slplit tasks into functions to call from setup
+-need to comment code
