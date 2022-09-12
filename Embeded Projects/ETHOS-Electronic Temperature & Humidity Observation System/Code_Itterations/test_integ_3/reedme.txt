@@ -1,0 +1,17 @@
+-------------screen_2test-------------
+this code handles your screen priniting
+good comments to explain
+prints custome code
+
+-------------test_integ_1-------------
+temp and humid sens integration done
+humid and temp prints to serial
+
+-------------test_integ_2-------------
+humid and temp prints to screen
+
+-------------test_integ_3-------------
+changed to only 1 decimal place prints
+prints percent 
+prints degrees
+changed sampling rate to every 5s
