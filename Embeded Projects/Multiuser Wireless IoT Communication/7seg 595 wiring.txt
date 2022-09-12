@@ -1,0 +1,15 @@
+seg pin 1_dotSide= 5 on 595 connect to -> 4 on 595 black
+seg pin 2_dotSide= 4 on 595 connect to -> 3 on 595 white
+seg pin 3_dotSide= gnd
+seg pin 4_dotSide= 3 on 595 connect to -> 2 on 595 gray
+seg pin 5_dotSide=          connect to -> 7 on 595 
+
+seg pin 10       = 7 on 595 connect to -> 6 on 595 red
+seg pin 9        = 6 on 595 connect to -> 5 on 595 brown
+seg pin 8        = nothing  connect to -> gnd
+seg pin 7        = 1 on 595 connect to -> 15 on 595 purple
+seg pin 6        = 2 on 595 connect to -> 1  on 595 blue
+
+int latchpin = D7;// connect to pin 12 on the '595
+int clockpin = D6; // connect to pin 11 on the '595
+int datapin = D8; // connect to pin 14 on the '595
