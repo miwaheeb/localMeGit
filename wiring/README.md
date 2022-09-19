@@ -1,1 +1,1 @@
-# wiring digrams of projects
+# Wiring digrams of projects
